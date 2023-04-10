@@ -66,15 +66,19 @@ UserSchema.methods.generateToken = function () {
 		{ id: this._id, email: this.email },
 		process.env.JWT_SECRET,
 		{
-			expiresIn: process.env.JWT_EXPIRES_IN,
+			expiresIn: process.env.JWT_EXPIRE_IN,
 		}
 	);
 	return token;
 };
 
 UserSchema.statics.emailExists = async function (email) {
-	const user = await this.findOne({email});
+	const user = await this.findOne({ email });
 	return !!user;
+};
+
+UserSchema.methods.comparePassword = async function (password) {
+	return await bcrypt.compare(password, this.password);
 };
 
 

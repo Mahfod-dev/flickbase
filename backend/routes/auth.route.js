@@ -5,7 +5,7 @@ const authController = require('../controllers/auth.controller');
 
 
 router.post('/register', authController.register);
-// router.post('/login', authController.login);
+router.post('/login', authController.login);
 // router.get('/isauth', auth(), authController.isAuth);
 // router.post('/testrole', auth('readAny', 'test'), authController.testrole);
 
