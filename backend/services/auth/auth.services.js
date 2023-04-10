@@ -1,24 +1,17 @@
-const {checkUser} = require('./auth.features');
+const { checkUser, generateToken } = require('./auth.features');
 
 const register = async (req, res) => {
-    try {
+	try {
+		const { email, password } = req.body;
+		const user = await checkUser(email, password);
+		const token = await generateToken(user);
 
-       const {email, password} = req.body;
-
-
-
-
-         const user = await checkUser(email, password);
-       
-        console.log(user)
-
-      res.status(201).json({user})
-    } catch (error) {
-        console.log(error)
-    }
-}
-
+		res.status(201).json({ user, token });
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 module.exports = {
-    register
-}
+	register,
+};

@@ -24,8 +24,11 @@ try {
 
 }
 
-
+const generateToken = async (user) => {
+	const token = await user.generateToken();
+};
 
 module.exports = {
-    checkUser
-}
+	checkUser,
+	generateToken,
+};
