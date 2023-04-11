@@ -5,7 +5,7 @@ const {
 } = require('./auth.features');
 const httpStatus = require('http-status');
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
 		const user = await checkUser(email, password);
@@ -19,11 +19,11 @@ const register = async (req, res) => {
 			.status(httpStatus.CREATED)
 			.json({ user, token });
 	} catch (error) {
-		res.status(400).json({ error: error.message });
+		next(error);
 	}
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
 		const user = await signinWithEmailAndPass(email, password);
@@ -37,7 +37,7 @@ const login = async (req, res) => {
 			.status(httpStatus.OK)
 			.json({ user, token });
 	} catch (error) {
-		res.status(400).json({ error: error.message });
+		next(error);
 	}
 };
 

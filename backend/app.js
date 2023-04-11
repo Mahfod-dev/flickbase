@@ -4,6 +4,10 @@ require('colors');
 const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
 
+//Error middleware
+const errorHandler = require('./middleware/error-handler');
+const notFound = require('./middleware/not-found');
+
 //routes
 const routes = require('./routes');
 
@@ -18,6 +22,10 @@ app.use(mongoSanitize());
 
 //routes
 app.use('/api/v1', routes);
+
+//Error middleware
+app.use(notFound);
+app.use(errorHandler);
 
 
 module.exports = app;

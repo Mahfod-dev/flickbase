@@ -1,5 +1,6 @@
 const User = require('../../models/user.model');
 const { findUserByEmail } = require('../users/user.features');
+const { BadRequestError, UnauthenticatedError } = require('../../errors');
 
 const checkUser = async (email, password) => {
 	console.log(email, password);
@@ -7,10 +8,8 @@ const checkUser = async (email, password) => {
 	try {
 		const isMatch = await User.emailExists(email);
 
-		console.log(isMatch);
-
 		if (isMatch) {
-			throw new Error('email already exists');
+			throw new BadRequestError('email already exists');
 		}
 
 		const user = await User.create({
@@ -19,7 +18,7 @@ const checkUser = async (email, password) => {
 		});
 		return user;
 	} catch (error) {
-		console.log(error.message);
+		throw error;
 	}
 };
 
@@ -33,18 +32,18 @@ const signinWithEmailAndPass = async (email, password) => {
 		const user = await findUserByEmail(email);
 
 		if (!user) {
-			throw new Error('user not found');
+			throw new UnauthenticatedError('user not found');
 		}
 
 		const isMatch = await user.comparePassword(password);
 
 		if (!isMatch) {
-			throw new Error('password is incorrect');
+			throw new UnauthenticatedError('password is incorrect');
 		}
 
 		return user;
 	} catch (error) {
-		console.log(error.message);
+		throw error;
 	}
 };
 
