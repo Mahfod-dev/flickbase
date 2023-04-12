@@ -41,7 +41,17 @@ const login = async (req, res, next) => {
 	}
 };
 
+const isAuth = async (req, res, next) => {
+	try {
+		const { user } = req;
+		res.status(httpStatus.OK).json({ user });
+	} catch (error) {
+		next(error);
+	}
+};
+
 module.exports = {
 	register,
 	login,
+	isAuth,
 };

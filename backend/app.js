@@ -11,6 +11,10 @@ const notFound = require('./middleware/not-found');
 //routes
 const routes = require('./routes');
 
+//passport
+const passport = require('passport');
+const { jwtStrategy } = require('./middleware/passport');
+
 const app = express();
 
 app.use(express.json());
@@ -18,6 +22,12 @@ app.use(express.json());
 //sanitize data
 app.use(xss());
 app.use(mongoSanitize());
+
+//passport middleware
+app.use(passport.initialize());
+passport.use('jwt',jwtStrategy);
+
+
 
 
 //routes

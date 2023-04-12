@@ -3,6 +3,8 @@ const validator = require('validator');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
+
 const UserSchema = new mongoose.Schema(
 	{
 		email: {
@@ -81,10 +83,7 @@ UserSchema.methods.comparePassword = async function (password) {
 	return await bcrypt.compare(password, this.password);
 };
 
-
-
-
-
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model.User || mongoose.model('User', UserSchema);
 
 module.exports = User;
+
